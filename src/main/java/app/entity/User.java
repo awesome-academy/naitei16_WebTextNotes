@@ -1,6 +1,7 @@
 package app.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private String email;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -27,13 +28,21 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
+    private Boolean rememberPwd;
+
+    @Column
     @CreationTimestamp
     private Timestamp createdAt;
 
     @Column
     @UpdateTimestamp
     private Timestamp updatedAt;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     @OneToMany(cascade= CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
@@ -50,4 +59,26 @@ public class User {
     @OneToMany(cascade= CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private Set<SharedUser> sharedUsers;
+
+    @Override
+    public String toString() {
+        System.out.println("to String");
+        return getId() + " -  " +  getUsername() + " -  "+ getPassword();
+    }
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
